@@ -20,7 +20,7 @@ func ReadConfig() (*CMConfig, error) {
 	config := new(CMConfig)
 
 	currentUser, _ := user.Current()
-	configLocation := currentUser.HomeDir + "/.cm/inventory"
+	configLocation := currentUser.HomeDir + "/.cminventory"
 
 	cfg, err := ini.Load(configLocation)
 	if err != nil {
@@ -68,7 +68,7 @@ func (c *CMConfig) AddServer() error {
 func (c *CMConfig) SaveConfig() error {
 
 	currentUser, _ := user.Current()
-	configLocation := currentUser.HomeDir + "/.cm/inventory"
+	configLocation := currentUser.HomeDir + "/.cminventory"
 
 	cfg := ini.Empty()
 

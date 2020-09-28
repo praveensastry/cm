@@ -21,7 +21,7 @@ AUTHOR:
 
 COMMANDS:
    list-hosts, lh     cm list-hosts
-   configure, c       cm configure <spec>
+   configure, c       cm configure <spec/host name>
    add-host, ah       cm add-host
    delete-host, dh    cm delete-host
    list-specs, ls     cm list-specs
@@ -76,12 +76,12 @@ Specs can require other specs, to link smaller building blocks into more complex
 
 By default, **cm** will look for Specs in the following directories, in order, overwriting previously found specs with the same name:
 
-1. ~/.cm/specs/
+1. ~/.cmspecs/
 2. ./specs/
 
 ### inventory
 
-By default, **cm** will look for hosts in `~/.cm/inventory` file. Inventory must stored in the below format
+By default, **cm** will look for hosts in `~/.cminventory` file. Inventory must stored in the below format
 ```
 [host_alias]
         Host     = host_ip/host_domain_name

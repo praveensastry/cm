@@ -3,7 +3,6 @@ package parser
 import (
 	"bytes"
 	"errors"
-	"fmt"
 	"os"
 	"os/exec"
 	"os/user"
@@ -106,7 +105,7 @@ func GetSpecs() (*SpecList, error) {
 	currentUser, _ := user.Current()
 	// To-Do add support for remote specs
 	candidates := []string{
-		currentUser.HomeDir + "/.cm/specs/",
+		currentUser.HomeDir + "/.cmspecs/",
 		"./specs/",
 	}
 
@@ -177,7 +176,6 @@ func (s *SpecList) PreCmds(specName string) []string {
 // Returns the requires
 func (s *SpecList) Requires(specName string) []string {
 	requires := s.getRequires(specName)
-	fmt.Println(requires)
 	if requires != nil {
 		return strings.Split(requires.Print(), "\n")
 	}
