@@ -1,0 +1,11 @@
+[web1]
+        Host     = 18.214.100.155
+        Username = root
+        Spec     = hello_world
+        PassAuth = true
+
+[web2]
+        Host     = 54.90.98.43
+        Username = root
+        Spec     = hello_world
+        PassAuth = true

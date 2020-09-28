@@ -3,7 +3,13 @@ A minimalist configuration management tool.
 
 ## usage
 
-To run this tool locally change into root of the project and run `GO111MODULE=on go run cm.go configure hello_world`
+To run this tool locally and configure the remote servers follow the below steps:
+
+1. change directory into root of the project 
+2. Run `./bin/bootstrap.sh` to register the inventory defined in `./bin/inventory.txt`
+3. Run `GO111MODULE=on go run cm.go configure hello_world` to run the hello_world spec from `./specs` dir
+
+General usage:
 
 ```bash
 ➜  cm git:(master) ✗ GO111MODULE=on go run cm.go
