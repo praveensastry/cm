@@ -9,6 +9,7 @@ require (
 	github.com/pkg/sftp v1.12.0
 	github.com/praveensastry/cm/terminal v0.0.0
 	github.com/smartystreets/goconvey v1.6.4 // indirect
+	github.com/stretchr/testify v1.6.1
 	github.com/urfave/cli v1.22.4
 	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a
 	gopkg.in/ini.v1 v1.61.0
