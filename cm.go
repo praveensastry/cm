@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
+	"github.com/praveensastry/cm/internal/config"
 	"github.com/praveensastry/cm/terminal"
 	"github.com/urfave/cli"
 )
@@ -23,7 +25,9 @@ func main() {
 			Usage:       "cm list-hosts",
 			Description: "List all hosts that are registered with cm",
 			Action: func(c *cli.Context) error {
-
+				cfg := getConfig()
+				terminal.Information(fmt.Sprintf("There are [%d] remote servers configured currently", len(cfg.Servers)))
+				cfg.Servers.PrintAllServerInfo()
 				return nil
 			},
 		},
@@ -79,6 +83,22 @@ func main() {
 	app.Run(os.Args)
 }
 
-func getConfig() {
-	terminal.Information("buh")
+func getConfig() *config.CMConfig {
+	// Check Config
+	cfg, err := config.ReadConfig()
+	if err != nil || len(cfg.Servers) == 0 {
+		// No Config Found, ask if we want to create one
+		create := terminal.BoxPromptBool("configuration file not found or empty!", "Do you want to add some servers now?")
+		if !create {
+			terminal.Information("Alright then, maybe next time.. ")
+			os.Exit(0)
+			return nil
+		}
+		// Add Some Servers to our config
+		cfg.AddServer()
+		os.Exit(0)
+		return nil
+	}
+
+	return cfg
 }
