@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 
+	"github.com/praveensastry/cm/terminal"
 	"github.com/urfave/cli"
 )
 
@@ -73,6 +74,11 @@ func main() {
 			},
 		},
 	}
+	terminal.Information("buh")
 
 	app.Run(os.Args)
+}
+
+func getConfig() {
+	terminal.Information("buh")
 }
