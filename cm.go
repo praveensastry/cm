@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/praveensastry/cm/internal/config"
+	"github.com/praveensastry/cm/internal/parser"
 	"github.com/praveensastry/cm/terminal"
 	"github.com/urfave/cli"
 )
@@ -37,7 +38,14 @@ func main() {
 			Usage:       "cm configure <spec>",
 			Description: "Configure one or many remote servers with a given spec",
 			Action: func(c *cli.Context) error {
+				specList, err := parser.GetSpecs()
+				if err != nil {
+					terminal.ShowErrorMessage("Error Reading Spec Files!", err.Error())
+					return err
+				}
 
+				cfg := getConfig()
+				cfg.Servers.RemoteConfigure(c.Args().Get(0), specList)
 				return nil
 			},
 		},
@@ -47,7 +55,8 @@ func main() {
 			Usage:       "cm add-host",
 			Description: "Register a new host with cm",
 			Action: func(c *cli.Context) error {
-				return nil
+				cfg := getConfig()
+				return cfg.AddServer()
 			},
 		},
 		{
@@ -56,7 +65,8 @@ func main() {
 			Usage:       "cm delete-host",
 			Description: "Deregister a host from cm",
 			Action: func(c *cli.Context) error {
-				return nil
+				cfg := getConfig()
+				return cfg.DeleteServer()
 			},
 		},
 		{
@@ -65,6 +75,15 @@ func main() {
 			Usage:       "cm list-specs",
 			Description: "List all available specs",
 			Action: func(c *cli.Context) error {
+				specList, err := parser.GetSpecs()
+				if err != nil {
+					terminal.ShowErrorMessage("Error Reading Spec Files!", err.Error())
+					return err
+				}
+
+				terminal.Information(fmt.Sprintf("There are [%d] specs available currently", len(specList.Specs)))
+				specList.PrintSpecInformation()
+
 				return nil
 			},
 		},
@@ -74,12 +93,23 @@ func main() {
 			Usage:       "cm describe-spec",
 			Description: "Show what a given spec will build",
 			Action: func(c *cli.Context) error {
+				specList, err := parser.GetSpecs()
+				if err != nil {
+					terminal.ShowErrorMessage("Error Reading Spec Files!", err.Error())
+				}
+
+				specName := c.Args().Get(0)
+				terminal.Information(fmt.Sprintf("Showing spec plan for spec: [%s]", specName))
+				if !specList.SpecExists(specName) {
+					terminal.ShowErrorMessage("Unable to find Spec!", fmt.Sprintf("I was unable to find a spec named [%s].", specName))
+					return nil
+				}
+
+				specList.ShowSpecBuild(specName)
 				return nil
 			},
 		},
 	}
-	terminal.Information("buh")
-
 	app.Run(os.Args)
 }
 
